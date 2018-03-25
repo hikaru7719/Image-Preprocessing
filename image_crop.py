@@ -10,10 +10,12 @@ import argparse
 def image_function(image,response,size,number,dir_name,people_name):
     if number == 0:
         make_dir = dir_name +'/resize/'
-        os.makedirs(make_dir)
+        if not os.path.exists(make_dir):
+            os.makedirs(make_dir)
     im = Image.open(image)
     for face in response.face_annotations:
         number += 1
+        print(face)
         box = [(vertex.x, vertex.y) for vertex in face.bounding_poly.vertices]
         box_for_trim = []
         taple_for_left = box[0]
@@ -29,10 +31,6 @@ def image_function(image,response,size,number,dir_name,people_name):
         save_file_name = dir_name +'/resize/' + people_name + '_' +str(number)+'.jpg'
         print(str(save_file_name))
         resize.save(str(save_file_name))
-        resize.show()
-
-
-
 
     return number
 
